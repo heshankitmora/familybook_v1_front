@@ -6,11 +6,13 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
 import { FacebookModule } from 'ng2-facebook-sdk';
+import { UserAuthComponent } from './user-auth/user-auth.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserAuthComponent
   ],
   imports: [
     BrowserModule,
