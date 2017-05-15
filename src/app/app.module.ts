@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { FacebookModule } from 'ng2-facebook-sdk';
 import { UserAuthComponent } from './user-auth/user-auth.component';
 
+import { userAuthService } from './user-auth/user-auth.service';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { UserAuthComponent } from './user-auth/user-auth.component';
     HttpModule,
     FacebookModule.forRoot()
   ],
+  providers:[userAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
