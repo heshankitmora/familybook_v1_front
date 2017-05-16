@@ -34,11 +34,12 @@ export class UserAuthComponent implements OnInit {
                 console.log(response);
                 if(response._id != ''){
                   //Success Message
+                  var userActiveSession = response.userActiveSession;
                   console.log('succeeded');
                   self.fb.api('/me/family')
                     .then((res: any) => {
-                      console.log(res);
-                      self_service.userAuthService.userRelationshipAddService(res).subscribe(
+                      console.log(res.userActiveSession);
+                      self_service.userAuthService.userRelationshipAddService(res, userActiveSession).subscribe(
                         response_fam=>{
                           console.log(response_fam);
                         }

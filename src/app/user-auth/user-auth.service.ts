@@ -23,12 +23,12 @@ export class userAuthService{
       .map((response:Response)=>response.json());
   }
 
-  userRelationshipAddService(userRelations):Observable<any>{
+  userRelationshipAddService(userRelations, userActiveSession):Observable<any>{
     let userRelationsData = JSON.stringify(userRelations);
     let headers = new Headers({'Content-Type':'application/json'});
     let options = new RequestOptions({headers:headers});
 
-    return this.http.post('http://localhost:3000/user/familydata', userRelationsData, options)
+    return this.http.post('http://localhost:3000/user/familydata?userActiveSession='+userActiveSession, userRelationsData, options)
       .map((response:Response)=>response.json());
   }
 }
