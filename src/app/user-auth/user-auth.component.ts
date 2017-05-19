@@ -31,17 +31,22 @@ export class UserAuthComponent implements OnInit {
             var self_service = this;
             this.userAuthService.userAuthenticationService(resultUser).subscribe(
               response=>{
-                console.log(response);
                 if(response._id != ''){
+                  var userId = resultUser.id;
+
                   //Success Message
                   var userActiveSession = response.userActiveSession;
                   console.log('succeeded');
                   self.fb.api('/me/family')
                     .then((res: any) => {
-                      console.log(res.userActiveSession);
                       self_service.userAuthService.userRelationshipAddService(res, userActiveSession).subscribe(
                         response_fam=>{
                           console.log(response_fam);
+                          self_service.userAuthService.userRelationshipsNetworkViewService(userId,userActiveSession).subscribe(
+                            response_data=>{
+                              console.log(response_data);
+                            }
+                          )
                         }
                       )
 
