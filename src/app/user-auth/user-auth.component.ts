@@ -45,6 +45,7 @@ export class UserAuthComponent implements OnInit {
                           self_service.userAuthService.userRelationshipsNetworkViewService(userId,userActiveSession).subscribe(
                             response_data=>{
                               console.log(response_data);
+                              
                             }
                           )
                         }
