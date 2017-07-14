@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { userAuthService } from './user-auth.service';
+import { Router } from "@angular/router";
 import {FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent} from 'ng2-facebook-sdk';
+import {SharedService} from '../app.service'
 
 @Component({
   selector: 'app-user-auth',
@@ -12,7 +14,9 @@ export class UserAuthComponent implements OnInit {
   @ViewChild(FBVideoComponent) video: FBVideoComponent;
   constructor(
     private fb: FacebookService,
-    private userAuthService:userAuthService
+    private userAuthService:userAuthService,
+    private router:Router,
+    private sharedService:SharedService
   ) {
     fb.init({
       appId: '235789543562027',
@@ -21,13 +25,15 @@ export class UserAuthComponent implements OnInit {
   }
 
   login() {
+    console.log('123');
     this.fb.login()
       .then((res: LoginResponse) => {
         console.log(res);
         var self = this;
-        this.fb.api('/me')
+        this.fb.api('/me?fields=id,name,picture.type(large)')
           .then((resultUser: any) => {
-            console.log(resultUser);
+            var imgUrl = resultUser.picture.data.url;
+            console.log(resultUser.picture.data.url);
             var self_service = this;
             this.userAuthService.userAuthenticationService(resultUser).subscribe(
               response=>{
@@ -44,10 +50,28 @@ export class UserAuthComponent implements OnInit {
                           console.log(response_fam);
                           self_service.userAuthService.userRelationshipsNetworkViewService(userId,userActiveSession).subscribe(
                             response_data=>{
-                              console.log(response_data);
-                              
+                              this.sharedService.insertUserData(response_data);
+                              this.sharedService.insertImg(imgUrl);
+                              this.router.navigate(['userprofile']);
+
+                             // console.log(response_data);
                             }
                           )
+
+
+                        }
+                      )
+
+                      self_service.userAuthService.userRelationshipsNetworkViewAllDetailService(res, userActiveSession).subscribe(
+                        response_fam=>{
+                          console.log(response_fam);
+                          self_service.userAuthService.userRelationshipsNetworkViewService(userId,userActiveSession).subscribe(
+                            response_data=>{
+                              console.log(response_data);
+                            }
+                          )
+
+
                         }
                       )
 
@@ -65,6 +89,7 @@ export class UserAuthComponent implements OnInit {
 
         this.getFamily();
       })
+
   }
 
   /**

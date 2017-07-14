@@ -37,6 +37,14 @@ export class userAuthService{
     let userIdData = JSON.stringify(jsonUsr);
     let headers = new Headers({'Content-Type':'application/json'});
     let options = new RequestOptions({headers:headers});
+    return this.http.post('http://localhost:3000/user/unfilteredrelationship?userActiveSession='+userActiveSession, userIdData, options)
+      .map((response:Response)=>response.json());
+  }
+  userRelationshipsNetworkViewAllDetailService(userId, userActiveSession):Observable<any>{
+    var jsonUsr = {userId:userId};
+    let userIdData = JSON.stringify(jsonUsr);
+    let headers = new Headers({'Content-Type':'application/json'});
+    let options = new RequestOptions({headers:headers});
     return this.http.post('http://localhost:3000/user/relationship?userActiveSession='+userActiveSession, userIdData, options)
       .map((response:Response)=>response.json());
   }
